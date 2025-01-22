@@ -1,0 +1,56 @@
+<div class="encabezado">
+  <img src="images/Logo.png" alt="Logo" class="logo">
+  <h1> {{title}}</h1>
+</div>
+  <nav>
+      <div>       
+          <ul class="menu-horizontal">
+              <li><a routerLink="/index" routerLinkActive="active">Inicio</a></li>
+
+              <li>
+                <a routerLink="/lista-actividades" routerLinkActive="active">Actividades</a>
+                <ul class="menu-vertical">
+                  <li><a routerLink="/crud-actividadesRecreativas" routerLinkActive="active"> CRUD Actividades</a></li>
+                </ul>
+              </li>
+
+              <li>
+                <a routerLink="/lista-excursiones" routerLinkActive="active">Excursiones</a>
+                <ul class="menu-vertical">
+                  <li><a routerLink="/crud-excursiones" routerLinkActive="active"> CRUD Excursiones</a></li>
+                </ul>
+              </li>
+
+              <li>
+                <a routerLink="/lista-guias-turisticos" routerLinkActive="active">Guias Turísticos</a>
+                <ul class="menu-vertical">
+                  <li><a routerLink="/crud-guias-turisticos" routerLinkActive="active"> CRUD Guias Turísticos</a></li>
+                </ul>
+              </li>
+
+              <li>
+                <a routerLink="/lista-restaurantes" routerLinkActive="active">Restaurantes</a>
+                <ul class="menu-vertical">
+                  <li><a routerLink="/crud-restaurantes" routerLinkActive="active"> CRUD Restaurantes</a></li>
+                </ul>
+              </li>
+
+              <li>
+                  <a routerLink="/lista-transporte" routerLinkActive="active">Transporte</a>
+                <ul class="menu-vertical">
+                  <li><a routerLink="/crud-transporte" routerLinkActive="active">CRUD Transporte</a></li>
+                </ul>
+              </li>
+
+              <li>
+                <a routerLink="/lista-alojamientos" routerLinkActive="active">Alojamientos</a>
+                <ul class="menu-vertical">
+                  <li><a routerLink="/crud-alojamientos" routerLinkActive="active"> CRUD Alojamientos</a></li>
+                </ul>
+              </li>
+
+          </ul>
+      </div>
+  </nav>
+
+<router-outlet></router-outlet>

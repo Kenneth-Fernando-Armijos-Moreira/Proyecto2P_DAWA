@@ -1,0 +1,115 @@
+<!--Formularios reactivos de angular-->
+<h2>{{Title}}</h2>
+<mat-divider></mat-divider>
+<div class="container">
+  <form [formGroup]="form" class="ocultar" (submit)="onSubmit()">
+      <mat-form-field class="formCampoMedio">
+          <mat-label>Nombre:</mat-label>
+          <input matInput type="text" placeholder="name" formControlName="name"/>        
+          <mat-error>
+            @if(form.get('name')?.invalid && (form.get('name')?.dirty || form.get('name')?.touched)){
+              @if (form.get('name')?.errors?.['required']) {
+                Nombre es requerido
+              }
+              @else if (form.get('name')?.errors?.['minlength']) {
+                Nombre minimo 10 caracteres
+              }
+              @else if(form.get('name')?.errors?.['pattern']){
+                Nombre solo debe contener letras y numeros
+              }
+            }
+          </mat-error> 
+        </mat-form-field>
+
+      <mat-form-field class="formCampoLargo">
+          <mat-label>Descripción:</mat-label>
+          <input matInput type="text" placeholder="description" formControlName="description"/>        
+          <mat-error>
+            @if(form.get('description')?.invalid && (form.get('description')?.dirty || form.get('description')?.touched)){
+              @if (form.get('description')?.errors?.['required']) {
+                Descripcion es requerida
+              }
+              @else if (form.get('description')?.errors?.['minlength']) {
+                Descripcion minimo 20 caracteres
+              }
+              @else if(form.get('description')?.errors?.['pattern']){
+                Descripcion solo debe contener letras y numeros
+              }
+            }
+          </mat-error> 
+        </mat-form-field>
+
+      <mat-form-field class="formCampoMedio">
+        <mat-label>Categoria:</mat-label>
+        <mat-select formControlName="category">
+            <mat-option value="">Seleccione...</mat-option>
+            <mat-option value="Aventura">Aventura</mat-option>
+            <mat-option value="Cultural ">Cultural</mat-option>
+            <mat-option value="Naturaleza">Naturaleza</mat-option>          
+          </mat-select>
+          <mat-error>
+            @if(form.get('category')?.invalid && (form.get('category')?.dirty || form.get('category')?.touched)){
+              @if (form.get('category')?.errors?.['required']) {
+                Categoria es requerida
+              }
+            }
+          </mat-error> 
+      </mat-form-field>     
+      
+      <mat-form-field class="formCampoPequeño">
+          <mat-label>Precio:</mat-label>
+          <input matInput type="number" placeholder="0" formControlName="price"/>        
+          <mat-error>
+            @if(form.get('price')?.invalid && (form.get('price')?.dirty || form.get('price')?.touched)){
+              @if (form.get('price')?.errors?.['required']) {
+                Precio es requerido
+              }@else if (form.get('price')?.errors?.['min']) {
+                Precio minimo 8 
+              }@else if(form.get('price')?.errors?.['max']){
+                Precio maximo 50
+              }
+            } 
+          </mat-error> 
+        </mat-form-field>
+
+      <mat-form-field class="formCampoLargo">
+          <mat-label>Url de imagen de la actividad:</mat-label>
+          <input matInput type="url" placeholder="url" formControlName="image"/>    
+          <mat-error>
+            @if(form.get('image')?.invalid && (form.get('image')?.dirty || form.get('image')?.touched)){
+              @if (form.get('image')?.errors?.['required']) {
+                Url es requerida
+              }
+              @else if(form.get('image')?.errors?.['pattern']){
+                Url no valida
+              }
+            }
+          </mat-error>     
+      </mat-form-field>
+
+          
+      <mat-checkbox class="formElement" formControlName="rating">Solo mayores de 16</mat-checkbox>
+        <div>
+          <button mat-raised-button class="formActions" color="primary" type="submit">Guardar</button>    
+          <button mat-raised-button class="formActions" color="primary" type="reset" (click)="clearForm()">Cancelar</button>   
+        </div>
+
+  </form>
+
+  <div class="search-container">
+      <mat-form-field>
+          <mat-label>Buscar:</mat-label>
+          <input matInput type="search" placeholder="titulo o categoria" #searchInput 
+          (keyup)="search(searchInput)"/>        
+      </mat-form-field>
+      <button mat-raised-button color="primary" (click)="search(searchInput)">Buscar</button>
+
+  </div>
+  <tabla-crud
+    [data]="dataSource.data"
+    [columns]="columns"
+    (edit)="editar($event)"
+    (delete)="eliminar($event)">
+  </tabla-crud>
+</div>
+<app-footer></app-footer>

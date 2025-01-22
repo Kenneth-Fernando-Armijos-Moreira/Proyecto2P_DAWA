@@ -1,0 +1,43 @@
+<h2>{{Title}}</h2>
+<mat-divider></mat-divider>
+<div class="container">
+    @if(guides.length===0){
+        <p> No hay guías turísticos para mostrar</p>
+    }@else{
+        <div class="row g-4">
+            @for (guide of guides; track $index){
+                <div class="col-12 col-sm-6 col-md-3 mb-4">
+                    <mat-card appearance="outlined" class="guia-card">
+                        <mat-card-header>
+                            <mat-card-title class="nombre"> <strong>{{guide.name}}</strong></mat-card-title>                
+                        </mat-card-header>   
+                        @if (guide.image) {
+                            <img mat-card-image [src]="guide.image" [alt]="guide.image" #imgGuide />	
+                        }@else {
+                            <img mat-card-image src="images/default.png" [alt]="guide.image" #imgGuide  />
+                        }         
+                        <mat-card-content>    
+                            <p class="edad">{{guide.age}} años</p>
+                            <p><strong>Años de experiencia: </strong>{{guide.years_of_experience}}</p>
+                            <p><strong>Excursión a cargo: </strong>{{guide.excursion}}</p>
+                            @if(guide.vehicle==true){
+                                <p class="veh"> Dispone de vehículo</p>
+                            }@else{
+                                <p class="veh">No dispone de vehículo</p>
+                            }
+                        </mat-card-content>
+                        <mat-card-actions class="center-button ">	               
+                            <button mat-flat-button (click)="contratar(guide)"> 
+                                <mat-icon>favorite</mat-icon> 
+                                Contratar</button>
+                        </mat-card-actions>	
+                    </mat-card>
+                </div>
+                
+            }
+        </div>
+        
+    }
+</div>
+
+<app-footer></app-footer>

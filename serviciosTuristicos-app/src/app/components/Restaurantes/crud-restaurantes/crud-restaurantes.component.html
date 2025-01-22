@@ -1,0 +1,128 @@
+<h2>{{Title}}</h2>
+<mat-divider></mat-divider>
+
+<div class="container">
+    <form [formGroup]="form" class="ocultar" (submit)="onSubmit()">
+      <mat-form-field class="formCampoMedio">
+          <mat-label>Nombre del Local:</mat-label>
+          <input matInput type="text" placeholder="Nombre" formControlName="nombre"/> 
+          <mat-error>
+            @if(form.get('nombre')?.invalid && (form.get('nombre')?.dirty || form.get('nombre')?.touched)){
+              @if (form.get('nombre')?.errors?.['required']) {
+                Nombre es requerido
+              }
+              @else if (form.get('nombre')?.errors?.['minlength']) {
+                Nombre minimo 8 caracteres
+              }
+              @else if(form.get('nombre')?.errors?.['pattern']){
+                Nombre solo debe contener letras y numeros
+              }
+            }
+          </mat-error> 
+      </mat-form-field>
+
+      <mat-form-field class="formCampoMedio">
+        <mat-label>Tipo de Comida:</mat-label>
+          <mat-select formControlName="tipo">
+            <mat-option value="Latina">Latina</mat-option>
+            <mat-option value="Internacional">Internacional</mat-option>
+            <mat-option value="Multicultural">Multicultural</mat-option>
+          </mat-select>
+          <mat-error>
+            @if(form.get('tipo')?.invalid && (form.get('tipo')?.dirty || form.get('tipo')?.touched)){
+              @if (form.get('tipo')?.errors?.['required']) {
+                Tipo de comidad es requerida
+              }
+            }
+          </mat-error> 
+      </mat-form-field> 
+
+      <mat-form-field class="formCampoLargo">
+          <mat-label>Especialidad del Local:</mat-label>
+          <input matInput type="text" placeholder="Especialidad" formControlName="especialidad"/>   
+          <mat-error>
+            @if(form.get('especialidad')?.invalid && (form.get('especialidad')?.dirty || form.get('especialidad')?.touched)){
+              @if (form.get('especialidad')?.errors?.['required']) {
+                Especialidad es requerida
+              }
+              @else if (form.get('especialidad')?.errors?.['minlength']) {
+                Especialidad minimo 5 caracteres
+              }
+              @else if(form.get('especialidad')?.errors?.['pattern']){
+                Especialidad solo debe contener letras y numeros
+              }
+            }
+          </mat-error>      
+      </mat-form-field>
+
+      <mat-form-field class="formCampoPequeño">
+          <mat-label>Calificación:</mat-label>
+          <input matInput type="number" placeholder="0" min="0.5" max="5" step="0.5" formControlName="calificacion"/>  
+          <mat-error>
+            @if(form.get('calificacion')?.invalid && (form.get('calificacion')?.dirty || form.get('calificacion')?.touched)){
+              @if (form.get('calificacion')?.errors?.['required']) {
+                Calificación es requerido
+              }@else if (form.get('calificacion')?.errors?.['min']) {
+                Calificación minimo 0.5 
+              }@else if(form.get('calificacion')?.errors?.['max']){
+                Calificación maximo 5
+              }
+            } 
+          </mat-error>       
+      </mat-form-field>
+
+      <mat-form-field class="formCampoLargo">
+        <mat-label>Dirección del Local:</mat-label>
+        <input matInput type="text" placeholder="Dirección" formControlName="direccion"/>
+        <mat-error>
+          @if(form.get('direccion')?.invalid && (form.get('direccion')?.dirty || form.get('direccion')?.touched)){
+            @if (form.get('direccion')?.errors?.['required']) {
+              Dirección es requerida
+            }
+            @else if (form.get('direccion')?.errors?.['minlength']) {
+              Dirección minimo 10 caracteres
+            }
+            @else if(form.get('direccion')?.errors?.['pattern']){
+              Dirección solo debe contener letras y numeros
+            }
+          }
+        </mat-error> 
+    </mat-form-field>
+
+      <mat-form-field class="formCampoLargo">
+          <mat-label>Url de la Foto del Restaurante:</mat-label>
+          <input matInput type="url" placeholder="url" formControlName="foto"/>
+          <mat-error>
+            @if(form.get('foto')?.invalid && (form.get('foto')?.dirty || form.get('foto')?.touched)){
+              @if (form.get('foto')?.errors?.['required']) {
+                Url es requerida
+              }
+              @else if(form.get('foto')?.errors?.['pattern']){
+                Url no valida
+              }
+            }
+          </mat-error> 
+      </mat-form-field>
+      
+        <div>
+          <button mat-raised-button class="formActions" color="primary" type="submit">Guardar</button>    
+          <button mat-raised-button class="formActions" color="primary" type="reset" (click)="clearForm()">Cancelar</button>   
+        </div>
+  </form>
+
+  <div class="search-container">
+      <mat-form-field>
+          <mat-label>Buscar:</mat-label>
+          <input matInput type="search" placeholder="Nombre o Tipo" #searchInput 
+          (keyup)="search(searchInput)"/>        
+      </mat-form-field>
+      <button mat-raised-button color="primary" (click)="search(searchInput)">Buscar</button>
+  </div>
+  <tabla-crud
+    [data]="dataSource.data"
+    [columns]="columns"
+    (edit)="editar($event)"
+    (delete)="eliminar($event)">
+  </tabla-crud>
+</div>
+<app-footer></app-footer>

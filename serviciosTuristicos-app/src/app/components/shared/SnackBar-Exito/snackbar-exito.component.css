@@ -1,0 +1,17 @@
+.snackbar-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 16px;
+    color: white;
+    border-radius: 4px;
+  }
+  
+  
+  button {
+    color: white;
+    background-color: transparent;
+    padding: none;
+    border: none;
+    margin-left: 25px;
+  }  

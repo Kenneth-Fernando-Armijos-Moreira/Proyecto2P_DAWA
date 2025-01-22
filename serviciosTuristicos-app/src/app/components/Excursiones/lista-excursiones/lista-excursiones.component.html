@@ -1,0 +1,32 @@
+<h2>{{title}}</h2>
+<mat-divider></mat-divider>
+<div class="contenido">
+    @if(excursions.length===0){
+        <p>No hay excursiones para mostrar.</p>
+    }@else{
+        @for(excursion of excursions;track $index){
+            <mat-card appearance="outlined" class="excursion-card">
+                <mat-card-header>
+                    <mat-card-title><strong>{{excursion.name}}</strong></mat-card-title>
+                </mat-card-header>
+                @if(excursion.image){
+                    <img mat-card-image [src]="excursion.image" [alt]="excursion.name">
+                }@else{
+                    <img mat-card-image src="images/default.png" [alt]="excursion.name">
+                }
+                <mat-card-content>
+                    <p>{{excursion.description}}</p>
+                    <p><mat-icon>schedule</mat-icon> {{excursion.duration}} horas</p>
+                    <p><mat-icon>language</mat-icon> {{excursion.guideLanguage}}</p>
+                    <p class="price"><strong>{{excursion.price | currency:"USD"}}</strong></p>
+                </mat-card-content>
+                <mat-card-actions class="btnReservar">
+                    <button mat-flat-button (click)="reservar(excursion)">
+                    <mat-icon>event available</mat-icon>
+                    Reservar</button>    
+                </mat-card-actions>
+            </mat-card>
+        }
+    }
+</div>
+<app-footer></app-footer>

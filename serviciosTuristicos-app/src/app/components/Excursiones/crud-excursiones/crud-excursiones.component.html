@@ -1,0 +1,125 @@
+<h2>{{title}}</h2>
+<mat-divider></mat-divider>
+<div class="container">
+    <form [formGroup]="form" class="ocultar" (submit)="onSubmit()">
+        <mat-form-field class="formCampoMedio">
+          <mat-label>Nombre de la Excursión:</mat-label>
+          <input matInput type="text" placeholder="nombre" formControlName="name" />
+          <mat-error>
+            @if(form.get('name')?.invalid && (form.get('name')?.dirty || form.get('name')?.touched)){
+                @if(form.get('name')?.errors?.['required']){
+                    Nombre es requerido
+                }
+                @else if (form.get('name')?.errors?.['minlength']) {
+                    Nombre minimo 5 caracteres
+                }
+                @else if (form.get('name')?.errors?.['maxlength']) {
+                    Nombre máximo 100 caracteres
+                }
+            }
+        </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="formCampoLargo">
+            <mat-label>Descripción:</mat-label>
+            <input matInput type="text" placeholder="descripción" formControlName="description"/>
+            <mat-error>
+                @if(form.get('description')?.invalid && (form.get('description')?.dirty || form.get('description')?.touched)){
+                    @if(form.get('description')?.errors?.['required']){
+                        Descripción es requerida
+                    }
+                    @else if (form.get('description')?.errors?.['minlength']) {
+                        Descripción minimo 5 caracteres
+                    }
+                }
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="formCampoMedio">
+            <mat-label>Duración de la Excursión:</mat-label>
+            <input matInput type="number" placeholder="horas" formControlName="duration" />
+            <mat-error>
+                @if(form.get('duration')?.invalid && (form.get('duration')?.dirty || form.get('duration')?.touched)){
+                    @if(form.get('duration')?.errors?.['required']){
+                        Duración es requerida
+                    }
+                    @else if(form.get('duration')?.errors?.['min']){
+                        Duración minimo 1 hora
+                    }
+                    @else if(form.get('duration')?.errors?.['max']){
+                        Duración máximo 24 horas
+                    }
+                }
+            </mat-error>
+        </mat-form-field>
+
+      <mat-form-field class="formCampoMedio">
+        <mat-label>Idioma del Guía:</mat-label>
+        <mat-select formControlName="guideLanguage">
+          <mat-option value="">Seleccione...</mat-option>
+          <mat-option value="Español">Español</mat-option>
+          <mat-option value="Inglés">Inglés</mat-option>
+          <mat-option value="Portugués">Portugués</mat-option>
+        </mat-select>
+        <mat-error>
+            @if(form.get('guideLanguage')?.invalid && (form.get('guideLanguage')?.dirty || form.get('guideLanguage')?.touched)){
+                @if(form.get('guideLanguage')?.errors?.['required']){
+                    Idioma es requerido
+                }
+            }
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="formCampoPequeño">
+        <mat-label>Precio:</mat-label>
+        <input matInput type="number" placeholder="0" formControlName="price" />
+       <mat-error>
+        @if(form.get('price')?.invalid && (form.get('price')?.dirty || form.get('price')?.touched)){
+            @if(form.get('price')?.errors?.['required']){
+                Precio es requerida
+            }
+            @else if(form.get('price')?.errors?.['min']){
+                Precio mínimo 1
+            }
+            @else if(form.get('price')?.errors?.['max']){
+                Precio máximo 20000
+            }
+        }
+       </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="formCampoLargo">
+        <mat-label>URL de imagen de la excursión:</mat-label>
+        <input matInput type="url" placeholder="url" formControlName="image" />
+        <mat-error>
+            @if(form.get('image')?.invalid && (form.get('image')?.dirty || form.get('image')?.touched)){
+                @if(form.get('image')?.errors?.['required']){
+                    Url es requerida
+                }
+            }
+           </mat-error>
+      </mat-form-field>
+
+        <div>
+          <button mat-raised-button class="formActions" color="primary" type="submit">Guardar</button>
+          <button mat-raised-button class="formActions" color="primary" type="reset" (click)="clearForm()">Cancelar</button>
+        </div>
+      </form>
+
+<div class="search-container">
+    <mat-form-field>
+        <mat-label>Buscar:</mat-label>
+        <input matInput type="search" placeholder="nombre" #searchInput 
+        (keyup)="search(searchInput)" />
+    </mat-form-field>
+    <button mat-raised-button (click)= "search(searchInput)">Buscar</button>
+</div>
+
+<tabla-crud
+    [data]="dataSource.data"
+    [columns]="columns"
+    (edit)="editar($event)"
+    (delete)="eliminar($event)">
+</tabla-crud>
+</div>
+<app-footer></app-footer>

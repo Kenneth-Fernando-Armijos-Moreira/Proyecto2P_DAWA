@@ -1,0 +1,56 @@
+h2{
+    text-align: center;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+mat-divider{
+    width:85%;
+    margin: 0 auto; 
+    display: block;
+    padding:5px;
+}
+
+.search-container{
+    margin-left: 20px;
+}
+
+.search-container button {
+    margin: 10px;
+    transform: translateY(-22%);
+}
+
+.formActions{
+    margin: 10px;
+}
+
+.formCampoMedio{
+    margin: 10px;
+    width: 17rem;
+}
+
+.formCampoPequeño{
+    margin: 10px;
+    width: 10rem;
+}
+
+.formTabla{
+    width: 50rem;
+
+}
+
+form{
+    margin: 20px;
+    margin-bottom: 40px;
+    border: 1px solid #aaa;
+    border-radius: 10px;
+    padding: 15px;
+}
+
+body{
+    margin: 20px;
+}
+
+.container {
+    width: 95%;
+}

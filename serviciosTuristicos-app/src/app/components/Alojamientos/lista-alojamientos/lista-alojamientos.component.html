@@ -1,0 +1,34 @@
+<h2>{{Title}}</h2>
+<mat-divider></mat-divider>
+<div class="CardsCenter">
+    @if(Alojamientos.length===0){
+        <p>No hay alojamientos para mostrar</p>
+    }@else {
+        @for (alojamiento of Alojamientos; track $index) {
+            <mat-card appearance="outlined" class="alojamientos">
+                <mat-card-header>
+                    <mat-card-title><strong>{{alojamiento.nombre | uppercase}}</strong></mat-card-title>
+                </mat-card-header>
+                @if (alojamiento.foto) {
+                    <img mat-card-image [src]="alojamiento.foto" [alt]="alojamiento.foto" #imgalojamiento />
+                }@else {
+                    <img mat-card-image src="images/default.png" [alt]="alojamiento.foto" #imgalojamiento />
+                }
+                <p class="tipo-alojamiento"><strong>{{alojamiento.tipo}}</strong></p>
+                <mat-card-content>
+                    <p><strong>Calificación:</strong> {{alojamiento.calificacion}}/5</p>
+                    <p><strong>Capacidad:</strong> {{alojamiento.capacidad}}</p>
+                    <p><strong>Precio:</strong> {{alojamiento.precio | currency: "USD"}}</p>
+                    <p><strong>Dirección:</strong> {{alojamiento.direccion}}</p>
+                </mat-card-content>
+                <mat-card-actions class="btnReservar">
+                    <button mat-flat-button  (click)="Reservar(alojamiento)">
+                        <mat-icon> event </mat-icon>Reservar
+                    </button>
+                </mat-card-actions>
+            </mat-card>
+        }    
+    }
+</div>
+
+<app-footer></app-footer>

@@ -1,0 +1,20 @@
+<div class="dialog-overlay">
+  <mat-card class="dialog-container">
+
+    <mat-card-header class="dialog-header">
+      <mat-card-title class="dialog-title">{{ data.titulo }}</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content class="dialog-content">
+      {{ data.contenido }}
+    </mat-card-content>
+
+    <div class="boton-center">
+      <mat-card-actions class="dialog-actions">
+        <button mat-raised-button color="primary" (click)="onAceptar()">
+          <mat-icon class="dialog-icon">check</mat-icon> Aceptar
+        </button>
+      </mat-card-actions>
+    </div>
+  </mat-card>
+</div>

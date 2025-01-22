@@ -1,0 +1,26 @@
+.boton-center {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.content-center {
+    text-align: center;
+}
+
+
+
+.botones-accion{
+    padding: 10px;
+    border-radius: 15px;
+    margin: 10px;
+    border: 1px solid #ddd;
+    color: white;
+    background-color: #145eb4;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+
+}
+
+.botones-accion:hover {
+    transform: translateY(-3px);
+}

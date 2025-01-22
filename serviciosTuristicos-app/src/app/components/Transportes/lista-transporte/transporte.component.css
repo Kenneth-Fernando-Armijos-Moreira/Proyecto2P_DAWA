@@ -1,0 +1,66 @@
+h2 {
+    text-align: center;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+mat-divider{
+    width:85%;
+    margin: 0 auto; 
+    display: block;
+    padding:5px;
+    padding-bottom: 15px;
+}
+
+.Transporte{
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    padding: 1rem;
+    margin-top: 1rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: inline-block;
+    width: 100%;
+    max-width: 1825px;
+}
+
+.Transporte:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.CardsCenter{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem; 
+    margin: 0 auto;
+    max-width: 2000px;
+}
+
+.Transporte img{
+    border-radius: 20px;
+    box-sizing: border-box;
+    height: 300px;
+    width: auto; 
+    display: block; 
+    margin-left: 0;
+    margin-right: auto;
+    height: 20rem;
+    padding-bottom: 20px;
+}
+
+.btnReservar {
+    display: flex;
+    border: none;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    margin-top: 1rem;
+}
+
+.btnReservar:hover {
+    transform: translateY(-3px);
+}

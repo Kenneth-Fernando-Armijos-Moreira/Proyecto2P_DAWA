@@ -1,0 +1,149 @@
+<h2>{{Title}}</h2>
+<mat-divider></mat-divider>
+
+<div class="container">
+      <form [formGroup]="form" class="ocultar" (submit)="onSubmit()">
+        <mat-form-field class="formCampoMedio">
+          <mat-label>Nombre del Alojamiento:</mat-label>
+          <input matInput type="text" placeholder="Nombre" formControlName="nombre"/> 
+          <mat-error>
+            @if(form.get('nombre')?.invalid && (form.get('nombre')?.dirty || form.get('nombre')?.touched)){
+              @if (form.get('nombre')?.errors?.['required']) {
+                Nombre es requerido
+              }
+              @else if (form.get('nombre')?.errors?.['minlength']) {
+                Nombre minimo 8 caracteres
+              }
+              @else if(form.get('nombre')?.errors?.['pattern']){
+                Nombre solo debe contener letras y numeros
+              }
+            }
+          </mat-error> 
+      </mat-form-field>
+
+      <mat-form-field class="formCampoMedio">
+        <mat-label>Tipo de Alojamiento:</mat-label>
+          <mat-select formControlName="tipo">
+            <mat-option value="Hotel">Hotel</mat-option>
+            <mat-option value="Hostal">Hostal</mat-option>
+            <mat-option value="Albergue">Albergue</mat-option>
+            <mat-option value="Apartamento">Apartamento</mat-option>
+          </mat-select>
+          <mat-error>
+            @if(form.get('tipo')?.invalid && (form.get('tipo')?.dirty || form.get('tipo')?.touched)){
+              @if (form.get('tipo')?.errors?.['required']) {
+                Tipo de alojamiento es requerida
+              }
+            }
+          </mat-error> 
+      </mat-form-field>
+
+      <mat-form-field class="formCampoMedio">
+        <mat-label>Capacidad del Alojamiento:</mat-label>
+          <input matInput type="text" placeholder="Capacidad" formControlName="capacidad"/> 
+            <mat-error>
+              @if(form.get('capacidad')?.invalid && (form.get('capacidad')?.dirty || form.get('capacidad')?.touched)){
+                @if (form.get('capacidad')?.errors?.['required']) {
+                  Capacidad es requerido
+                }
+                @else if (form.get('capacidad')?.errors?.['minlength']) {
+                  Capacidad minimo 8 caracteres
+                }
+                @else if(form.get('capacidad')?.errors?.['pattern']){
+                  Capacidad solo debe contener letras y numeros
+                }
+              }
+            </mat-error> 
+      </mat-form-field>
+
+      <mat-form-field class="formCampoMedio">
+        <mat-label>Calificación:</mat-label>
+          <input matInput type="number" placeholder="0" min="0.5" max="5" step="0.5" formControlName="calificacion"/>  
+          <mat-error>
+            @if(form.get('calificacion')?.invalid && (form.get('calificacion')?.dirty || form.get('calificacion')?.touched)){
+              @if (form.get('calificacion')?.errors?.['required']) {
+                Calificación es requerido
+              }@else if (form.get('calificacion')?.errors?.['min']) {
+                Calificación minimo 0.5 
+              }@else if(form.get('calificacion')?.errors?.['max']){
+                Calificación maximo 5
+              }
+            } 
+          </mat-error>       
+      </mat-form-field>
+
+      <mat-form-field class="formCampoPequeño">
+        <mat-label>Precio:</mat-label>
+          <input matInput type="number" placeholder="0" min="20" max="565" step="5" formControlName="precio"/>  
+          <mat-error>
+            @if(form.get('precio')?.invalid && (form.get('precio')?.dirty || form.get('precio')?.touched)){
+              @if (form.get('precio')?.errors?.['required']) {
+                Precio es requerido
+              }@else if (form.get('precio')?.errors?.['min']) {
+                Precio minimo 20
+              }@else if(form.get('precio')?.errors?.['max']){
+                Precio maximo 265
+              }
+            } 
+          </mat-error>       
+      </mat-form-field>
+
+      <mat-form-field class="formCampoLargo">
+        <mat-label>Dirección del Local:</mat-label>
+          <input matInput type="text" placeholder="Dirección" formControlName="direccion"/>   
+          <mat-error>
+            @if(form.get('direccion')?.invalid && (form.get('direccion')?.dirty || form.get('direccion')?.touched)){
+              @if (form.get('direccion')?.errors?.['required']) {
+                Dirección es requerida
+              }
+              @else if (form.get('direccion')?.errors?.['minlength']) {
+                Dirección minimo 5 caracteres
+              }
+              @else if(form.get('direccion')?.errors?.['pattern']){
+                Dirección solo debe contener letras y numeros
+              }
+            }
+          </mat-error>      
+      </mat-form-field>
+
+      <mat-form-field class="formCampoLargo">
+          <mat-label>Url de la Foto del Alojamiento:</mat-label>
+          <input matInput type="url" placeholder="url" formControlName="foto"/>
+          <mat-error>
+            @if(form.get('foto')?.invalid && (form.get('foto')?.dirty || form.get('foto')?.touched)){
+              @if (form.get('foto')?.errors?.['required']) {
+                Url es requerida
+              }
+              @else if(form.get('foto')?.errors?.['pattern']){
+                Url no valida
+              }
+            }
+          </mat-error> 
+      </mat-form-field>
+      
+        <div>
+          <button mat-raised-button class="formActions" color="primary" type="submit">Guardar</button>    
+          <button mat-raised-button class="formActions" color="primary" type="reset" (click)="clearForm()">Cancelar</button>   
+        </div>
+    </form>
+
+
+  <div class="search-container">
+        <mat-form-field>
+            <mat-label>Buscar:</mat-label>
+            <input matInput type="search" placeholder="Nombre o Tipo" #searchInput 
+            (keyup)="search(searchInput)"/>        
+        </mat-form-field>
+        <button mat-raised-button color="primary" (click)="search(searchInput)">Buscar</button>
+  </div>
+
+  <tabla-crud
+    [data]="dataSource.data"
+    [columns]="columns"
+    (edit)="editar($event)"
+    (delete)="eliminar($event)">
+  </tabla-crud>
+
+</div>
+
+<app-footer></app-footer>

@@ -1,0 +1,34 @@
+<h2>{{title}}</h2>
+<mat-divider></mat-divider>
+<div class="CardsCenter">
+    @if (transport.length===0) {
+        <p> No hay transportes para mostrar</p>
+    }@else {
+        @for (transport of transport; track $index) {
+            <mat-card appearance="outlined" class="Transporte">
+                <mat-card-header>
+                    <mat-card-title><strong>{{transport.brand | uppercase}}</strong></mat-card-title>
+                    <mat-card-subtitle>Transporte: {{transport.type}}</mat-card-subtitle>
+                </mat-card-header>
+                @if (transport.image) {
+                    <img mat-card-image [src]="transport.image" [alt]="transport.type" #imgtransport />
+                }@else {
+                    <img mat-card-image src="images/default.png" [alt]="transport.type" #imgtransport  />
+                }
+                <mat-card-content>
+                    <p><strong>Descripcion: </strong>{{transport.description}}</p>
+                    <p><strong>Comodidades: </strong>{{transport.confort}}</p>
+                    <p><strong>Capacidad: </strong>{{transport.capacity}}</p>
+                    <p><strong>Precio: </strong>{{transport.price | currency: "USD"}}</p>
+                </mat-card-content>
+                <mat-card-actions class="btnReservar">
+                    <button mat-flat-button (click)="Reservar(transport)">
+                        <mat-icon>check</mat-icon>
+                        Reservar</button>
+                </mat-card-actions>
+            </mat-card>
+        }
+    }
+</div>
+
+<app-footer></app-footer>

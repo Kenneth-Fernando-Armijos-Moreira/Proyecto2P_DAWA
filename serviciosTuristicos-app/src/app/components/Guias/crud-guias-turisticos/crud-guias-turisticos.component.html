@@ -1,0 +1,100 @@
+<h2>{{Title}}</h2>
+<mat-divider></mat-divider>
+<!--Formularios reactivos de angular-->
+<div class="container">
+    <form [formGroup]="form" class="ocultar" (submit)="onSubmit()">
+        <mat-form-field class="formCampoMedio">
+            <mat-label>Nombre:</mat-label>
+            <input matInput type="text" placeholder="name" formControlName="name"/>        
+            <mat-error>
+            @if(form.get('name')?.invalid && (form.get('name')?.dirty || form.get('name')?.touched)){
+                @if (form.get('name')?.errors?.['required']) {
+                    Nombre es requerido
+                }
+                @else if (form.get('name')?.errors?.['minlength']) {
+                    Nombre minimo 8 caracteres
+                }
+                @else if(form.get('name')?.errors?.['pattern']){
+                    Nombre solo debe contener letras y numeros
+                }
+            }
+            </mat-error> 
+        </mat-form-field>
+        <mat-form-field class="formCampoPequeño">
+            <mat-label>Edad:</mat-label>
+            <input matInput type="number" placeholder="0" formControlName="age"/>        
+            <mat-error>
+            @if(form.get('age')?.invalid && (form.get('age')?.dirty || form.get('age')?.touched)){
+                @if (form.get('age')?.errors?.['required']) {
+                    Edad es requerida
+                }@else if (form.get('age')?.errors?.['min']) {
+                    Edad minima 20 
+                }@else if(form.get('age')?.errors?.['max']){
+                    Edad maxima 40
+                }
+            } 
+            </mat-error> 
+        </mat-form-field>
+        
+        <mat-form-field class="formCampoMedio">
+            <mat-label>Años de experiencia:</mat-label>
+            <mat-select formControlName="years_of_experience">
+                <mat-option value="">Seleccione...</mat-option>
+                <mat-option value="0-1 año">0-1 año</mat-option>
+                <mat-option value="2 años">2 años</mat-option>
+                <mat-option value="3 años">3 años</mat-option>          
+                <mat-option value="4 años">4 años</mat-option>          
+                <mat-option value="Más de 5 años">Más de 5 años</mat-option>          
+            </mat-select>
+            <mat-error>
+                @if(form.get('years_of_experience')?.invalid && (form.get('years_of_experience')?.dirty || form.get('years_of_experience')?.touched)){
+                    @if (form.get('years_of_experience')?.errors?.['required']) {
+                        Años de experiencia requerido
+                    }
+                }
+            </mat-error> 
+        </mat-form-field>     
+        <mat-form-field class="formCampoMedio">
+            <mat-label>Excursiones a cargo:</mat-label>
+            <input matInput type="text" placeholder="excursion" formControlName="excursion"/>        
+            <mat-error>
+            @if(form.get('excursion')?.invalid && (form.get('excursion')?.dirty || form.get('excursion')?.touched)){
+                @if (form.get('excursion')?.errors?.['required']) {
+                    Excursión es requerida
+                }
+                @else if (form.get('excursion')?.errors?.['minlength']) {
+                    Excursión minimo 8 caracteres
+                }
+            }
+            </mat-error> 
+        </mat-form-field>
+        <mat-form-field class="formCampoLargo">
+            <mat-label>Url de foto del guia:</mat-label>
+            <input matInput type="url" placeholder="url" formControlName="image"/>    
+        </mat-form-field>
+
+        <mat-checkbox class="formElement" formControlName="vehicle">Dispone de vehículo</mat-checkbox>
+
+        <div>
+            <button mat-raised-button class="formActions" color="primary" type="submit">Guardar</button>    
+            <button mat-raised-button class="formActions" color="primary" type="reset" (click)="clearForm()">Cancelar</button>   
+        </div>
+
+    </form>
+
+    <div class="search-container">
+        <mat-form-field>
+            <mat-label>Buscar:</mat-label>
+            <input matInput type="search" placeholder="nombre o excursion" #searchInput 
+            (keyup)="search(searchInput)"/>        
+        </mat-form-field>
+        <button mat-raised-button color="primary" (click)="search(searchInput)">Buscar</button>
+    </div>
+    <tabla-crud
+        [data]="dataSource.data"
+        [columns]="columns"
+        (edit)="editar($event)"
+        (delete)="eliminar($event)">
+    </tabla-crud>
+</div>
+<app-footer></app-footer>

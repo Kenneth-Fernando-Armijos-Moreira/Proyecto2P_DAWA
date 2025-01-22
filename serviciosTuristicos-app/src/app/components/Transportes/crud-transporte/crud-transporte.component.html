@@ -1,0 +1,154 @@
+<h2>{{Title}}</h2>
+<mat-divider></mat-divider>
+<div class="container">
+<form [formGroup]="form" class="ocultar" (submit)="onSubmit()">
+    <mat-form-field class="formCampoMedio">
+        <mat-label>Marca:</mat-label>
+        <input matInput type="text" placeholder="Marca" formControlName="brand"/>
+        <mat-error>
+          @if(form.get('brand')?.invalid && (form.get('brand')?.dirty || form.get('brand')?.touched)){
+            @if (form.get('brand')?.errors?.['required']) {
+              La marca es requerida
+            }
+            @else if (form.get('brand')?.errors?.['minlength']) {
+              La marca minimo 3 caracteres
+            }
+            @else if(form.get('brand')?.errors?.['pattern']){
+              La marca solo debe contener letras
+            }
+          }
+        </mat-error>        
+    </mat-form-field>
+    
+
+
+    <mat-form-field class="formCampoMedio">
+      <mat-label>Tipo:</mat-label>
+      <mat-select formControlName="type">
+          <mat-option value="">Seleccione...</mat-option>
+          <mat-option value="terrestre">terrestre</mat-option>
+          <mat-option value="aéreo">aéreo</mat-option>        
+        </mat-select>
+
+        <mat-error>
+          @if(form.get('type')?.invalid && (form.get('type')?.dirty || form.get('type')?.touched)){
+            @if (form.get('type')?.errors?.['required']) {
+              Tipo de transporte es requerido
+            }
+          }
+        </mat-error>
+    </mat-form-field>
+    
+    
+    
+    <mat-form-field class="formCampoMedio">
+        <mat-label>Descripción:</mat-label>
+        <input matInput type="text" placeholder="Descripción" formControlName="description"/>
+        <mat-error>
+          @if(form.get('description')?.invalid && (form.get('description')?.dirty || form.get('description')?.touched)){
+            @if (form.get('description')?.errors?.['required']) {
+              La descripcion es requerida
+            }
+            @else if (form.get('description')?.errors?.['minlength']) {
+              La descripcion debe tener al menos 5 caracteres
+            }
+            @else if(form.get('description')?.errors?.['pattern']){
+              La descripcion solo debe contener letras y numeros
+            }
+          }
+        </mat-error>      
+    </mat-form-field>
+
+    <mat-form-field class="formCampoMedio">
+        <mat-label>Capacidad:</mat-label>
+        <input matInput type="text" placeholder="Capacidad" formControlName="capacity"/>
+        <mat-error>
+          @if(form.get('capacity')?.invalid && (form.get('capacity')?.dirty || form.get('capacity')?.touched)){
+            @if (form.get('capacity')?.errors?.['required']) {
+              La Capacidad es requerida
+            }
+            @else if (form.get('capacity')?.errors?.['minlength']) {
+              La capacidad debe tener al menos 5 caracteres
+            }
+            @else if(form.get('capacity')?.errors?.['pattern']){
+              La capacidad solo debe contener letras y numeros
+            }
+          }
+        </mat-error>        
+    </mat-form-field>
+    
+    <mat-form-field class="formCampoMedio">
+        <mat-label>Comodidad:</mat-label>
+        <input matInput type="text" placeholder="Comodidad" formControlName="confort"/>
+        <mat-error>
+          @if(form.get('confort')?.invalid && (form.get('confort')?.dirty || form.get('confort')?.touched)){
+            @if (form.get('confort')?.errors?.['required']) {
+              La Comodidad es requerida
+            }
+            @else if (form.get('confort')?.errors?.['minlength']) {
+              La Comodidad debe tener al menos 5 caracteres
+            }
+            @else if(form.get('confort')?.errors?.['pattern']){
+              La Comodidad solo debe contener letras y numeros
+            }
+          }
+        </mat-error>        
+    </mat-form-field>
+
+    <mat-form-field class="formCampoPequeño">
+        <mat-label>Precio:</mat-label>
+        <input matInput type="number" placeholder="0" formControlName="price"/>
+        <mat-error>
+          @if(form.get('price')?.invalid && (form.get('price')?.dirty || form.get('price')?.touched)){
+            @if (form.get('price')?.errors?.['required']) {
+              Precio es requerido
+            }@else if (form.get('price')?.errors?.['min']) {
+              Precio minimo 5
+            }@else if(form.get('price')?.errors?.['max']){
+              Precio maximo 1000
+            }
+          } 
+        </mat-error>        
+    </mat-form-field>
+
+    <mat-form-field class="formCampoMedio">
+        <mat-label>Url de imagen del vehículo:</mat-label>
+        <input matInput type="url" placeholder="url" formControlName="image"/>
+        <mat-error>
+          @if(form.get('image')?.invalid && (form.get('image')?.dirty || form.get('image')?.touched)){
+            @if (form.get('image')?.errors?.['required']) {
+              Url es requerida
+            }
+            @else if(form.get('image')?.errors?.['pattern']){
+              Url no valida
+            }
+          }
+        </mat-error>         
+    </mat-form-field>
+
+    
+      <div>
+        <button mat-raised-button class="formActions" color="primary" type="submit">Guardar</button>    
+        <button mat-raised-button class="formActions" color="primary" type="reset" (click)="clearForm()">Cancelar</button>   
+      </div>
+
+</form>
+
+<div class="search-container">
+    <mat-form-field>
+        <mat-label>Buscar:</mat-label>
+        <input matInput type="search" placeholder="Marca o categoria" #searchInput 
+        (keyup)="search(searchInput)"/>
+    </mat-form-field>
+    <button mat-raised-button class="formActions" color="primary" (click)="search(searchInput)">Buscar</button>
+
+</div>
+
+<tabla-crud
+    [data]="dataSource.data"
+    [columns]="columns"
+    (edit)="editar($event)"
+    (delete)="eliminar($event)">
+</tabla-crud>
+</div>
+<app-footer></app-footer>
