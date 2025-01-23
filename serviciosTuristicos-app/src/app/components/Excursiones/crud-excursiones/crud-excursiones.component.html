@@ -56,10 +56,9 @@
       <mat-form-field class="formCampoMedio">
         <mat-label>Idioma del Guía:</mat-label>
         <mat-select formControlName="guideLanguage">
-          <mat-option value="">Seleccione...</mat-option>
-          <mat-option value="Español">Español</mat-option>
-          <mat-option value="Inglés">Inglés</mat-option>
-          <mat-option value="Portugués">Portugués</mat-option>
+          @for(language of languageOptions; track $index){
+            <mat-option [value]="language">{{language}}</mat-option>
+          }
         </mat-select>
         <mat-error>
             @if(form.get('guideLanguage')?.invalid && (form.get('guideLanguage')?.dirty || form.get('guideLanguage')?.touched)){

@@ -16,6 +16,7 @@ import { SnackBarExito } from "../../shared/SnackBar-Exito/snackbar-exito.compon
 import { TablaCrudComponent } from "../../shared/TablaCRUD/tabla-crud.component";
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Footer } from '../../shared/FooterComponente/footer.component';
+import { ExcursionesApiService } from '../../../services/excursiones-api.service';
 
 @Component({
   selector: 'app-crud-excursiones',
@@ -40,6 +41,8 @@ export class CrudExcursionesComponent {
     { key: 'guideLanguage', label: 'Lenguaje del guía' }
   ];
   @ViewChild(MatPaginator)paginator!:MatPaginator;
+  //arreglo para el combo
+  languageOptions=["Español","Inglés","Portugués"];
 
   ngAfterViewInit(): void {
     this.dataSource.paginator=this.paginator;
@@ -58,7 +61,7 @@ export class CrudExcursionesComponent {
     });
   }
 
-  constructor(private excursionService:ExcursionesjsonService, private fb:FormBuilder, private myDialog:MatDialog, private snackBar: MatSnackBar){
+  constructor(private excursionService:ExcursionesApiService, private fb:FormBuilder, private myDialog:MatDialog, private snackBar: MatSnackBar){
   }
   
   getExcursions():void{
@@ -87,7 +90,7 @@ export class CrudExcursionesComponent {
     }); 
     dialogRef.afterClosed().subscribe(result=>{
       if(result==="aceptar"){ 
-        this.excursionService.deleteExcursion(excursion).subscribe(()=>{
+        this.excursionService.deactiveExcursion(excursion).subscribe(()=>{
           SnackBarExito.showSnackBar(this.snackBar, `Excursion "${excursion.name}" eliminada exitosamente.`);
           this.getExcursions();
         });
@@ -125,6 +128,7 @@ export class CrudExcursionesComponent {
     }
 
     const newExcursion:Excursion=this.form.value;
+    newExcursion.active=true;
 
     if(this.isEditMode){
       newExcursion.id=this.currentId;

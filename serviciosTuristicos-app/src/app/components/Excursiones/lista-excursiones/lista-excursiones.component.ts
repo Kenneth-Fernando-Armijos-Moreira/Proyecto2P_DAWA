@@ -10,6 +10,7 @@ import { DialogoExito } from "../../shared/Dialogo-Exito/dialogo-exito.component
 import {MatDividerModule} from '@angular/material/divider';
 import { MatDialog } from '@angular/material/dialog';
 import { Footer } from '../../shared/FooterComponente/footer.component';
+import { ExcursionesApiService } from '../../../services/excursiones-api.service';
 
 @Component({
   selector: 'app-lista-excursiones',
@@ -21,7 +22,8 @@ import { Footer } from '../../shared/FooterComponente/footer.component';
 export class ListaExcursionesComponent {
   title="Lista de Excursiones";
   excursions: Excursion[]=[];
-  constructor(private miServicio:ExcursionesjsonService, private mydialog:MatDialog){
+  constructor(private miServicio:ExcursionesApiService
+    , private mydialog:MatDialog){
   }
 
   ngOnInit():void{

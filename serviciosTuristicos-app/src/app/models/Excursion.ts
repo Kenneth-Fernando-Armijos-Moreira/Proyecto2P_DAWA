@@ -7,4 +7,5 @@ export interface Excursion{
     guideLanguage: string;
     price: number;
     image: string;
+    active:boolean;
 }
