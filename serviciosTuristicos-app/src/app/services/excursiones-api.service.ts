@@ -40,17 +40,18 @@ export class ExcursionesApiService {
     const urlDeLaExcursion=`${this.apiwebUrl}/${excursion.id}`
     return this.http.put<Excursion>(urlDeLaExcursion, excursion); //put para editar
   }
-  
-  //eliminación física
-  deleteExcursion(excursion:Excursion):Observable<void>{
-    const urlDeLaExcursion=`${this.apiwebUrl}/${excursion.id}`
-    return this.http.delete<void>(urlDeLaExcursion); //delete para eliminar
-  }
 
   //eliminación lógica
   deactiveExcursion(excursion:Excursion):Observable<Excursion>{
     const urlDeLaExcursion=`${this.apiwebUrl}/deactive/${excursion.id}`
     return this.http.put<Excursion>(urlDeLaExcursion, excursion); //put para editar
   }
-  
+
+  /*
+   //eliminación física
+   deleteExcursion(excursion:Excursion):Observable<void>{
+    const urlDeLaExcursion=`${this.apiwebUrl}/${excursion.id}`
+    return this.http.delete<void>(urlDeLaExcursion); //delete para eliminar
+  }
+  */
 }
