@@ -10,6 +10,8 @@
                     <mat-card appearance="outlined" class="guia-card">
                         <mat-card-header>
                             <mat-card-title class="nombre"> <strong>{{guide.name}}</strong></mat-card-title>                
+                            
+
                         </mat-card-header>   
                         @if (guide.image) {
                             <img mat-card-image [src]="guide.image" [alt]="guide.image" #imgGuide />	
@@ -18,13 +20,9 @@
                         }         
                         <mat-card-content>    
                             <p class="edad">{{guide.age}} años</p>
-                            <p><strong>Años de experiencia: </strong>{{guide.years_of_experience}}</p>
-                            <p><strong>Excursión a cargo: </strong>{{guide.excursion}}</p>
-                            @if(guide.vehicle==true){
-                                <p class="veh"> Dispone de vehículo</p>
-                            }@else{
-                                <p class="veh">No dispone de vehículo</p>
-                            }
+                            <p><strong>Años de experiencia: </strong>{{guide.years_of_Experience}}</p>
+                            <p><strong>Excursión a cargo: </strong>{{guide.excursion?.name}}</p>
+                           
                         </mat-card-content>
                         <mat-card-actions class="center-button ">	               
                             <button mat-flat-button (click)="contratar(guide)"> 

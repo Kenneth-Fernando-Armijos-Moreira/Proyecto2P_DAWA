@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Guia } from '../../../models/Guia';
-import { GuiasjsonService } from '../../../services/ServiciosGuias/guiasjson.service';
+import { GuiasApiService} from '../../../services/guias-api.service';
 import { MatDialog } from '@angular/material/dialog';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
@@ -22,7 +22,7 @@ import { Footer } from '../../shared/FooterComponente/footer.component';
 export class ListaGuiasTuristicosComponent {
   Title = 'Lista de Guías Turísticos';
   guides: Guia[] = [];
-  constructor(private miServicio:GuiasjsonService, private mydialog:MatDialog){
+  constructor(private miServicio:GuiasApiService, private mydialog:MatDialog){
   }
 
   ngOnInit():void{
@@ -32,6 +32,7 @@ export class ListaGuiasTuristicosComponent {
   getGuias():void{
     this.miServicio.getGuides().subscribe((data: Guia[])=>{
       this.guides = data;
+      console.log(this.guides[0]);
 
     });
   }

@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { Guia } from '../../../models/Guia';
-import { GuiasjsonService } from '../../../services/ServiciosGuias/guiasjson.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogoConfirmacion } from '../../shared/Dialogo-Confirmacion/dialogo-confirmacion.component';
 import { MatNativeDateModule, MatOptionModule, _MatInternalFormField } from '@angular/material/core';
@@ -17,6 +16,10 @@ import { SnackBarExito } from "../../shared/SnackBar-Exito/snackbar-exito.compon
 import { TablaCrudComponent } from "../../shared/TablaCRUD/tabla-crud.component";
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Footer } from '../../shared/FooterComponente/footer.component';
+import { GuiasApiService } from '../../../services/guias-api.service';
+import { Excursion } from '../../../models/Excursion';
+import { ExcursionesApiService } from '../../../services/excursiones-api.service';
+
 
 @Component({
   selector: 'app-crud-guias-turisticos',
@@ -28,7 +31,7 @@ import { Footer } from '../../shared/FooterComponente/footer.component';
   templateUrl: './crud-guias-turisticos.component.html',
   styleUrl: './crud-guias-turisticos.component.css'
 })
-export class CrudGuiasTuristicosComponent {
+export class CrudGuiasTuristicosComponent implements OnInit, AfterViewInit{
   Title = 'CRUD de Guías Turísticos';
   form!:FormGroup;
   isEditMode: boolean=false;
@@ -37,27 +40,33 @@ export class CrudGuiasTuristicosComponent {
   columns = [
     { key: 'name', label: 'Nombre' },
     { key: 'age', label: 'Edad' },
-    { key: 'excursion', label: 'Excursión a cargo' }
+    { key: 'years_of_Experience', label: 'Años de experiencia' }
   ];
   @ViewChild(MatPaginator)paginator!:MatPaginator;
+
+  excursiones!:Excursion[];
+
   ngAfterViewInit():void{
     this.dataSource.paginator = this.paginator; 
   }
 
   ngOnInit():void{
     this.getGuides();
+    this.getExcursiones();
     //inicializar variables 
     this.form = this.fb.group({
       name: ["",[Validators.required, Validators.minLength(8), Validators.pattern(/^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\s]+$/)]],
       age: ["",[Validators.required, Validators.min(20), Validators.max(40)]],
-      vehicle: [false],
-      years_of_experience: ["",Validators.required],
-      excursion: ["",[Validators.required, Validators.minLength(8)]],
-      image: [""]
+      years_of_Experience: ["",Validators.required],
+      image: [""],
+      excursion:["", Validators.required],
+
     });
   
   }
-  constructor(private guideService: GuiasjsonService, private fb:FormBuilder, 
+  constructor(private guideService: GuiasApiService, 
+    private excursionService:ExcursionesApiService,
+    private fb:FormBuilder, 
     private mydialog: MatDialog, private snackBar: MatSnackBar ){
     
   }
@@ -65,6 +74,12 @@ export class CrudGuiasTuristicosComponent {
   getGuides():void{
     this.guideService.getGuides().subscribe((datos:Guia[])=>{
       this.dataSource.data = datos;
+      }); 
+  }
+
+  getExcursiones():void{
+    this.excursionService.getExcursions().subscribe((datos:Excursion[])=>{
+      this.excursiones = datos;
       }); 
   }
 
@@ -89,7 +104,7 @@ export class CrudGuiasTuristicosComponent {
     });    
     dialogRef.afterClosed().subscribe(result=>{
       if(result==="aceptar"){
-        this.guideService.deleteGuide(guia).subscribe(()=>{
+        this.guideService.deactiveGuia(guia).subscribe(()=>{
           SnackBarExito.showSnackBar(this.snackBar, `Guía "${guia.name}" eliminado exitosamente.`);
           this.getGuides();
         });
@@ -106,15 +121,22 @@ export class CrudGuiasTuristicosComponent {
     }else{
       console.log("Guia o id de la actividad undefined")
     }
+    console.log('Datos de la guía:', guia);
 
+    //obtener la excursion de la pelicula a editar
+    
+    let excursionSeleccionada = this.excursiones.find((g)=>g.id==guia.ExcursionId);
+    
     //cargar datos del guia
     this.form.setValue({
       name:guia.name,
       age:guia.age,
-      vehicle:guia.vehicle,
-      years_of_experience:guia.years_of_experience,
-      excursion:guia.excursion,
+      years_of_Experience:guia.years_of_Experience,
       image: guia.image,
+      //excursion:excursionSeleccionada,
+      excursion: excursionSeleccionada ? excursionSeleccionada.id : null,
+
+
     });
   }
 
@@ -127,6 +149,11 @@ export class CrudGuiasTuristicosComponent {
 
     //obtener los datos de los controles del formulario
     const newGuia:Guia = this.form.value;
+    newGuia.active=true;
+
+
+    newGuia.ExcursionId = (newGuia.excursion?.id)?newGuia.excursion.id:0;
+
 
     if(this.isEditMode){//editar
       newGuia.id=this.currentId;
@@ -135,6 +162,8 @@ export class CrudGuiasTuristicosComponent {
           this.getGuides();
       });
     }else{//agregar
+      delete newGuia.excursion;
+
       this.guideService.addGuide(newGuia).subscribe((updateGuia)=>{
         SnackBarExito.showSnackBar(this.snackBar, `Guía "${newGuia.name}" agregado exitosamente.`);
         this.getGuides();
@@ -147,13 +176,16 @@ export class CrudGuiasTuristicosComponent {
     this.form.reset({
       name:'',
       age:'',
-      vehicle:'',
-      years_of_experience:'',
-      excursion:'',
-      image:''
+      years_of_Experience:'',
+      image:'',
+      excursion: ''
+
     });
     this.currentId=0;
     this.isEditMode=false;
   }
+
+
+  
 
 }

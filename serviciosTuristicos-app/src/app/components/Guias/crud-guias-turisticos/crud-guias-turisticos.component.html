@@ -38,7 +38,7 @@
         
         <mat-form-field class="formCampoMedio">
             <mat-label>Años de experiencia:</mat-label>
-            <mat-select formControlName="years_of_experience">
+            <mat-select formControlName="years_of_Experience">
                 <mat-option value="">Seleccione...</mat-option>
                 <mat-option value="0-1 año">0-1 año</mat-option>
                 <mat-option value="2 años">2 años</mat-option>
@@ -47,33 +47,36 @@
                 <mat-option value="Más de 5 años">Más de 5 años</mat-option>          
             </mat-select>
             <mat-error>
-                @if(form.get('years_of_experience')?.invalid && (form.get('years_of_experience')?.dirty || form.get('years_of_experience')?.touched)){
-                    @if (form.get('years_of_experience')?.errors?.['required']) {
+                @if(form.get('years_of_Experience')?.invalid && (form.get('years_of_Experience')?.dirty || form.get('years_of_Experience')?.touched)){
+                    @if (form.get('years_of_Experience')?.errors?.['required']) {
                         Años de experiencia requerido
                     }
                 }
             </mat-error> 
         </mat-form-field>     
+
         <mat-form-field class="formCampoMedio">
             <mat-label>Excursiones a cargo:</mat-label>
-            <input matInput type="text" placeholder="excursion" formControlName="excursion"/>        
+            <mat-select formControlName="excursion">
+                @for(excursio of excursiones; track $index){
+                    <mat-option [value]="excursio">{{excursio.name}}</mat-option>
+                  }         
+            </mat-select>
             <mat-error>
-            @if(form.get('excursion')?.invalid && (form.get('excursion')?.dirty || form.get('excursion')?.touched)){
-                @if (form.get('excursion')?.errors?.['required']) {
-                    Excursión es requerida
+                @if(form.get('excursion')?.invalid && (form.get('excursion')?.dirty || form.get('excursion')?.touched)){
+                    @if (form.get('excursion')?.errors?.['required']) {
+                        Excursion es requerida
+                    }
                 }
-                @else if (form.get('excursion')?.errors?.['minlength']) {
-                    Excursión minimo 8 caracteres
-                }
-            }
             </mat-error> 
-        </mat-form-field>
+        </mat-form-field> 
+
+        
         <mat-form-field class="formCampoLargo">
             <mat-label>Url de foto del guia:</mat-label>
             <input matInput type="url" placeholder="url" formControlName="image"/>    
         </mat-form-field>
 
-        <mat-checkbox class="formElement" formControlName="vehicle">Dispone de vehículo</mat-checkbox>
 
         <div>
             <button mat-raised-button class="formActions" color="primary" type="submit">Guardar</button>    

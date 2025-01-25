@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Actividad } from '../../../models/Actividad';
-import { ActividadesjsonService } from '../../../services/ServiciosActividades/actividadesjson.service';
+import { ActividadesApiService} from '../../../services/actividades-api.service';
 import { CurrencyPipe, NgFor, NgIf } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -25,7 +25,7 @@ import { Footer } from '../../shared/FooterComponente/footer.component';
 export class ListaActividadesComponent {
   Title = 'Lista de Actividades';
   activities: Actividad[] = [];
-  constructor(private miServicio:ActividadesjsonService, private mydialog:MatDialog){
+  constructor(private miServicio:ActividadesApiService, private mydialog:MatDialog){
   }
 
   ngOnInit():void{
@@ -35,7 +35,8 @@ export class ListaActividadesComponent {
   getActividades():void{
     this.miServicio.getActivities().subscribe((data: Actividad[])=>{
       this.activities = data;
-      console.log(this.activities[2]);
+      //console.log(this.activities[2]);
+      console.log(this.activities[0]);
 
     });
   }

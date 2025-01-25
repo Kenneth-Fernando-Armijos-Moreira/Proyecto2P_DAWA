@@ -20,11 +20,7 @@
                             <p class="categoria">{{activity.category}}</p>
                             <p>{{activity.description}}</p>
                             <p><strong>Precio: </strong>{{activity.price| currency: "USD"}}</p>
-                            @if(activity.rating===true){
-                                <p class="rating">Para todas las edades</p>
-                            }@else{
-                                <p class="rating">Para mayores de 16 años</p>
-                            }
+                            
                         </mat-card-content>
                         <mat-card-actions class="center-button ">	               
                             <button mat-flat-button (click)="adquirir(activity)"> 

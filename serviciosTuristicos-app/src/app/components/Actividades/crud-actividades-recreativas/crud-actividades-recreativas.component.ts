@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { MatTableDataSource, MatTableModule} from '@angular/material/table';
 import { Actividad } from '../../../models/Actividad';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
-import { ActividadesjsonService } from '../../../services/ServiciosActividades/actividadesjson.service';
+import { ActividadesApiService} from '../../../services/actividades-api.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogoConfirmacion } from '../../shared/Dialogo-Confirmacion/dialogo-confirmacion.component';
 import { MatFormField, MatFormFieldModule, MatLabel } from '@angular/material/form-field';
@@ -28,7 +28,7 @@ import { Footer } from '../../shared/FooterComponente/footer.component';
   templateUrl: './crud-actividades-recreativas.component.html',
   styleUrl: './crud-actividades-recreativas.component.css'
 })
-export class CrudActividadesRecreativasComponent {
+export class CrudActividadesRecreativasComponent implements OnInit, AfterViewInit {
   Title = 'CRUD de Actividades';
   form!:FormGroup;
   isEditMode: boolean=false;
@@ -52,14 +52,13 @@ export class CrudActividadesRecreativasComponent {
       name: ["",[Validators.required, Validators.minLength(10), Validators.pattern(/^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\s]+$/)]],
       description: ["",[Validators.required, Validators.minLength(20)]],
       category: ["",Validators.required],
-      rating: [false],
       image: ["",[Validators.required, Validators.pattern(/^(https?:\/\/)?([\w\-]+(\.[\w\-]+)+)(\/[\w\-._~:/?#[\]@!$&'()*+,;=%]*)?$/)]],
       //image: [""],
       price: ["",[Validators.required, Validators.min(8), Validators.max(50)]]
     });
   
   }
-  constructor(private activityService: ActividadesjsonService, private fb:FormBuilder, 
+  constructor(private activityService: ActividadesApiService, private fb:FormBuilder, 
     private mydialog: MatDialog, private snackBar: MatSnackBar ){
     
   }
@@ -93,7 +92,7 @@ export class CrudActividadesRecreativasComponent {
     
     dialogRef.afterClosed().subscribe(result=>{
       if(result==="aceptar"){//que quiero que suceda si dio click en aceptar //si el usuario dio click en aceptar
-        this.activityService.deleteActivity(actividad).subscribe(()=>{
+        this.activityService.deactiveActividad(actividad).subscribe(()=>{
           SnackBarExito.showSnackBar(this.snackBar, `Actividad "${actividad.name}" eliminada exitosamente.`);
           this.getActivities();//para que see actualice el datasource
         });
@@ -116,7 +115,6 @@ export class CrudActividadesRecreativasComponent {
       name:actividad.name,
       description:actividad.description,
       category:actividad.category,
-      rating:actividad.rating,
       image:actividad.image,
       price:actividad.price,
     });
@@ -133,6 +131,7 @@ export class CrudActividadesRecreativasComponent {
 
     //obtener los datos de los controles del formulario
     const newActividad:Actividad = this.form.value;
+    newActividad.active=true;
 
     if(this.isEditMode){//editar
       newActividad.id=this.currentId;
@@ -154,7 +153,6 @@ export class CrudActividadesRecreativasComponent {
       name:'',
       description:'',
       category:'',
-      rating:'',
       image:'',
       price:''
     });
